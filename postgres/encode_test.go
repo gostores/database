@@ -1,5 +1,5 @@
 /*=================================
-* Copyright(c)2015-2016 Yiqilai
+* Copyright(c)2015-2016 gostores
 * All rights reserved
 * Inspired by lib/pq
 *=================================*/
@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/yiqilai/tools/driver/postgres/oid"
+	"github.com/gostores/database/postgres/oid"
 )
 
 func TestScanTimestamp(t *testing.T) {

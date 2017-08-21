@@ -1,5 +1,5 @@
 /*=================================
-* Copyright(c)2015-2016 Yiqilai
+* Copyright(c)2015-2016 gostores
 * All rights reserved
 * Inspired by lib/pq
 *=================================*/

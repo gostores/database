@@ -1,5 +1,5 @@
 /*=================================
-* Copyright(c)2015-2016 Yiqilai
+* Copyright(c)2015-2016 gostores
 * All rights reserved
 * Inspired by lib/pq
 *=================================*/
@@ -11,7 +11,7 @@ import (
 	"os"
 	"testing"
 
-	_ "github.com/yiqilai/tools/driver/postgres"
+	_ "github.com/gostores/database/postgres"
 )
 
 type Fatalistic interface {

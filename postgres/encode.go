@@ -1,5 +1,5 @@
 /*=================================
-* Copyright(c)2015-2016 Yiqilai
+* Copyright(c)2015-2016 gostores
 * All rights reserved
 * Inspired by lib/pq
 *=================================*/
@@ -18,7 +18,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/yiqilai/tools/driver/postgres/oid"
+	"github.com/gostores/database/postgres/oid"
 )
 
 func binaryEncode(parameterStatus *parameterStatus, x interface{}) []byte {

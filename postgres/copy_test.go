@@ -1,5 +1,5 @@
 /*=================================
-* Copyright(c)2015-2016 Yiqilai
+* Copyright(c)2015-2016 gostores
 * All rights reserved
 * Inspired by lib/pq
 *=================================*/
@@ -128,7 +128,7 @@ func TestCopyInRaiseStmtTrigger(t *testing.T) {
 
 	_, err = txn.Exec(`
 			CREATE OR REPLACE FUNCTION pg_temp.temptest()
-			RETURNS trigger AS 
+			RETURNS trigger AS
 			$BODY$ begin
 				raise notice 'Hello world';
 				return new;
@@ -141,7 +141,7 @@ func TestCopyInRaiseStmtTrigger(t *testing.T) {
 	_, err = txn.Exec(`
 			CREATE TRIGGER temptest_trigger
 			BEFORE INSERT
-			ON temp 
+			ON temp
 			FOR EACH ROW
 			EXECUTE PROCEDURE pg_temp.temptest()`)
 	if err != nil {
