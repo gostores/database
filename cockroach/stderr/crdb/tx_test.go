@@ -11,50 +11,23 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
 // implied. See the License for the specific language governing
 // permissions and limitations under the License.
+//
+// Author: Spencer Kimball (spencer@cockroachlabs.com)
 
 package crdb
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 	"sync"
 	"testing"
 
-	"github.com/gostores/database/cockroach/testserver"
+	"github.com/gostores/database/cockroach/stderr/testserver"
 )
-
-func TestExecuteTx(t *testing.T) {
-	testExecuteTxInner(t, ExecuteTx)
-}
-
-func TestExecuteInTx(t *testing.T) {
-	executeTx := func(
-		ctx context.Context,
-		db *sql.DB,
-		opts *sql.TxOptions,
-		fn func(*sql.Tx) error,
-	) error {
-		tx, err := db.BeginTx(ctx, opts)
-		if err != nil {
-			return err
-		}
-		return ExecuteInTx(ctx, tx, func() error { return fn(tx) })
-	}
-	testExecuteTxInner(t, executeTx)
-}
 
 // TestExecuteTx verifies transaction retry using the classic
 // example of write skew in bank account balance transfers.
-func testExecuteTxInner(
-	t *testing.T,
-	executeTxFn func(
-		context.Context,
-		*sql.DB,
-		*sql.TxOptions,
-		func(*sql.Tx) error,
-	) error,
-) {
+func TestExecuteTx(t *testing.T) {
 	db, stop := testserver.NewDBForTest(t)
 	defer stop()
 
@@ -80,7 +53,7 @@ INSERT INTO d.t (acct, balance) VALUES (1, 100), (2, 100);
 		defer rows.Close()
 		balances := []*int{&bal1, &bal2}
 		i := 0
-		for ; rows.Next(); i++ {
+		for ; rows.Next(); i += 1 {
 			if err = rows.Scan(balances[i]); err != nil {
 				return
 			}
@@ -96,7 +69,7 @@ INSERT INTO d.t (acct, balance) VALUES (1, 100), (2, 100);
 		errCh := make(chan error, 1)
 		go func() {
 			*iter = 0
-			errCh <- executeTxFn(context.Background(), db, nil, func(tx *sql.Tx) error {
+			errCh <- ExecuteTx(db, func(tx *sql.Tx) error {
 				*iter++
 				bal1, bal2, err := getBalances(tx)
 				if err != nil {
