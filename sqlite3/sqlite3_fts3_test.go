@@ -1,8 +1,7 @@
-/*=================================
-* Copyright(c)2015-2016 gostores
-* All rights reserved
-* Inspired by mattn/go-sqlite3
-*=================================*/
+// Copyright (C) 2015 Yasuhiro Matsumoto <mattn.jp@gmail.com>.
+//
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file.
 
 package sqlite3
 
@@ -94,7 +93,10 @@ func TestFTS4(t *testing.T) {
 
 	_, err = db.Exec("DROP TABLE foo")
 	_, err = db.Exec("CREATE VIRTUAL TABLE foo USING fts4(tokenize=unicode61, id INTEGER PRIMARY KEY, value TEXT)")
-	if err != nil {
+	switch {
+	case err != nil && err.Error() == "unknown tokenizer: unicode61":
+		t.Skip("FTS4 not supported")
+	case err != nil:
 		t.Fatal("Failed to create table:", err)
 	}
 

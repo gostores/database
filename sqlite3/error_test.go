@@ -1,8 +1,7 @@
-/*=================================
-* Copyright(c)2015-2016 gostores
-* All rights reserved
-* Inspired by mattn/go-sqlite3
-*=================================*/
+// Copyright (C) 2014 Yasuhiro Matsumoto <mattn.jp@gmail.com>.
+//
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file.
 
 package sqlite3
 
@@ -16,8 +15,8 @@ import (
 
 func TestSimpleError(t *testing.T) {
 	e := ErrError.Error()
-	if e != "SQL logic error or missing database" {
-		t.Error("wrong error code:" + e)
+	if e != "SQL logic error or missing database" && e != "SQL logic error" {
+		t.Error("wrong error code: " + e)
 	}
 }
 
